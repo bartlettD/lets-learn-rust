@@ -1,6 +1,17 @@
 use std::error::Error;
 use std::fs;
+use std::string;
 
+#[cfg(test)]
+mod tests{
+    use super::*;
+
+    #[test]
+    fn one_arg() {
+        let arg: Vec<String>  = vec![String::from("hello")];
+        assert_eq!(Config::new(&arg), Err("Not enough arguments. Arguments: query, filename"));
+    }
+}
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 	let contents = fs::read_to_string(config.filename)?;
@@ -9,7 +20,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-
+#[derive(Debug)]
+#[derive(PartialEq)]
 pub struct Config {
     pub query: String,
     pub filename: String,
